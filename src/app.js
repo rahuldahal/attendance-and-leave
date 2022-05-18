@@ -1,4 +1,5 @@
 import express from 'express';
+import usersRouter from '@routers/users';
 
 const app = express();
 
@@ -9,6 +10,6 @@ app.use(express.json());
 
 // setup routers
 
-app.use('/', (req, res) => res.json({ message: 'Sample success message' }));
+app.use('/users', usersRouter);
 
 export default app;
