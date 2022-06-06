@@ -1,4 +1,9 @@
 import User from '../models/User';
+import { StatusCodes } from 'http-status-codes';
+import {
+  USER_VALIDATION_FAILED,
+  VALIDATION_ERROR,
+} from '../constants/mongoose';
 
 export function create(req, res) {
   const { body } = req;
@@ -7,18 +12,22 @@ export function create(req, res) {
     .save()
     .then((user) => {
       const { _id } = user;
-      return res.status(201).json({ message: { _id } });
+      return res.status(StatusCodes.CREATED).json({ message: { _id } });
     })
     .catch((error) => {
       const { message, name } = error;
-      if (name === 'ValidationError') {
-        var errorsOnly = message.split('User validation failed:')[1];
-        var errorsArray = errorsOnly.split(',');
-        var readableErrors = errorsArray.map((error) =>
+      if (name === VALIDATION_ERROR) {
+        let errorsOnly = message.split(USER_VALIDATION_FAILED)[1];
+        let errorsArray = errorsOnly.split(',');
+        let readableErrors = errorsArray.map((error) =>
           error.split(':')[1].trim()
         );
-        return res.status(400).json({ error: readableErrors });
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: readableErrors });
       }
-      return res.status(500).json({ error: message });
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: message });
     });
 }
