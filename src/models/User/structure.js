@@ -5,7 +5,7 @@ export default {
   },
   middleName: {
     type: String,
-    required: true,
+    required: false,
   },
   lastName: {
     type: String,
