@@ -1,6 +1,4 @@
-import User from '@models/User';
-const dotenv = require('dotenv');
-dotenv.config();
+import User from '../models/User';
 
 export function create(req, res) {
   const { body } = req;
