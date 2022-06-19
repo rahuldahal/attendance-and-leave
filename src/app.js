@@ -1,3 +1,4 @@
+import morgan from 'morgan';
 import express from 'express';
 import usersRouter from './routers/users';
 
@@ -7,6 +8,9 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// morgan http logger
+app.use(morgan('combined'));
 
 // setup routers
 
