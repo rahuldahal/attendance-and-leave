@@ -1,9 +1,12 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { HASH_SALT } from '../utils/envs';
-import schema from './schema';
+import userStructure from './structure';
+import { Schema, model } from 'mongoose';
+import isEmail from 'validator/lib/isEmail';
+import isAlpha from 'validator/lib/isAlpha';
+import { isEmailUnique } from './validations';
+import { HASH_SALT } from '../../constants/db';
 
-const userSchema = new mongoose.Schema(schema);
+const userSchema = new Schema(userStructure);
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
@@ -22,6 +25,20 @@ userSchema.pre('save', function (next) {
   this.picture = `${this.picture}&name=${this.firstName}+${this.lastName}`;
   return next();
 });
+
+userSchema.path('email').validate(isEmail, 'You must provide a valid email');
+userSchema
+  .path('firstName')
+  .validate(isAlpha, 'The first name should only contain alphabets');
+userSchema
+  .path('lastName')
+  .validate(isAlpha, 'The last name should only contain alphabets');
+userSchema
+  .path('email')
+  .validate(
+    isEmailUnique,
+    'The email you provided already exists on our database'
+  );
 
 userSchema.methods.validatePassword = async function (
   password,
