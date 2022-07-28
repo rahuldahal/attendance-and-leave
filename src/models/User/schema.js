@@ -23,5 +23,4 @@ export default {
     type: Date,
     default: new Date(),
   },
-  timestamps: true,
 };
