@@ -1,20 +1,18 @@
-import joi from 'joi';
+import Joi from 'joi';
 import regex from '../constants/regex';
 
 // TODO: handle error messages https://stackoverflow.com/a/54657686
-export const userSchema = joi.object({
-  fullName: joi
-    .string()
+export const userSchema = Joi.object({
+  fullName: Joi.string()
     .regex(regex.onlyAlphabetsAndSpaces)
     .min(3)
     .max(30)
     .required(),
-  email: joi.string().email().required(),
-  password: joi.string().min(8).max(16).required(),
-  picture: joi
-    .string()
+  email: Joi.string().email().required(),
+  password: Joi.string().min(8).max(16).required(),
+  picture: Joi.string()
     .uri()
     .default('https://ui-avatars.com/api/?background=random'),
-  roles: joi.array().items(joi.string()),
-  lastLogin: joi.date(),
+  roles: Joi.array().items(Joi.string()),
+  lastLogin: Joi.date(),
 });
