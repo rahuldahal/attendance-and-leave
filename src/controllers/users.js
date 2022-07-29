@@ -4,29 +4,6 @@ import { StatusCodes } from 'http-status-codes';
 import { generateAccessToken } from '../utils/jwt';
 import { isEmpty, isString } from '../utils/string';
 import { LoginErrors } from '../constants/validationErrors';
-import { createUser } from '../services/user';
-
-export async function createHandler(req, res) {
-  const { validatedData } = req;
-  try {
-    // check for existing email
-    const user = await User.prototype.doesEmailExist(validatedData.email);
-    if (user) {
-      return res.status(StatusCodes.CONFLICT).json({
-        error: 'The email is already registered',
-      });
-    }
-
-    // create a new user
-    const createdUser = await createUser(validatedData);
-    const { _id } = createdUser;
-
-    return res.status(StatusCodes.CREATED).json({ message: { _id } });
-  } catch (error) {
-    console.log(error);
-    return res.status(StatusCodes.CONFLICT).json({ error });
-  }
-}
 
 export async function loginHandler(req, res) {
   const { email, password } = req.body;

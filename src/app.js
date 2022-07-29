@@ -2,6 +2,7 @@ import morgan from 'morgan';
 import express from 'express';
 import coursesRouter from './routers/courses';
 import subjectsRouter from './routers/subjects';
+import teachersRouter from './routers/teachers';
 
 const app = express();
 
@@ -15,7 +16,8 @@ app.use(morgan('combined'));
 
 // setup routers
 
-app.use('/subjects', subjectsRouter);
 app.use('/courses', coursesRouter);
+app.use('/subjects', subjectsRouter);
+app.use('/teachers', teachersRouter);
 
 export default app;

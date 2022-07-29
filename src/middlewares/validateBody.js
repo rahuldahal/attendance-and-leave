@@ -9,6 +9,7 @@ export default function validateBody(schema) {
 
       if (validatedData) {
         req.validatedData = validatedData;
+
         return next();
       }
     } catch (error) {
