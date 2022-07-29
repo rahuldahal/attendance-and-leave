@@ -1,13 +1,9 @@
-import { createCourse } from '../services/course';
-import { courseSchema } from '../schemas/course';
 import { StatusCodes } from 'http-status-codes';
+import { createCourse } from '../services/course';
 
 export async function createHandler(req, res) {
-  const { body } = req;
+  const { validatedData } = req;
   try {
-    // use Joi to valdiate the request body
-    const validatedData = await courseSchema.validateAsync(body);
-
     // create a new course
     const course = await createCourse(validatedData);
     const { _id } = course;

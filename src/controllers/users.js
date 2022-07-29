@@ -5,14 +5,10 @@ import { generateAccessToken } from '../utils/jwt';
 import { isEmpty, isString } from '../utils/string';
 import { LoginErrors } from '../constants/validationErrors';
 import { createUser } from '../services/user';
-import { userSchema } from '../schemas/user';
 
 export async function createHandler(req, res) {
-  const { body } = req;
+  const { validatedData } = req;
   try {
-    // use Joi to valdiate the request body
-    const { validatedData } = await userSchema.validateAsync(body);
-
     // check for existing email
     const user = await User.prototype.doesEmailExist(validatedData.email);
     if (user) {
