@@ -2,7 +2,7 @@ import Joi from 'joi';
 import regex from '../constants/regex';
 import leaveStatus from '../constants/leaveStatus';
 
-export const attendanceSchema = Joi.object({
+export const leaveRequestSchema = Joi.object({
   userId: Joi.string().regex(regex.objectId).required(),
   startFrom: Joi.date().required(),
   endAt: Joi.date().required(),
