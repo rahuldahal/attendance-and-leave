@@ -15,9 +15,9 @@ export default {
     type: String,
     default: 'https://ui-avatars.com/api/?background=random',
   },
-  roles: {
-    type: Array,
-    default: [],
+  role: {
+    type: String,
+    required: true,
   },
   lastLogin: {
     type: Date,
