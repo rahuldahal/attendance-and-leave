@@ -8,3 +8,12 @@ export async function createUser(data) {
     throw new Error(e);
   }
 }
+
+export async function loginUser({ email }) {
+  try {
+    return await User.findOne({ email }).exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}

@@ -1,7 +1,9 @@
 import User from '../models/User';
+import { ONE_DAY } from '../constants/date';
 import isEmail from 'validator/lib/isEmail';
+import { loginUser } from '../services/user';
+import { signAccessToken } from '../utils/jwt';
 import { StatusCodes } from 'http-status-codes';
-import { generateAccessToken } from '../utils/jwt';
 import { isEmpty, isString } from '../utils/string';
 import { LoginErrors } from '../constants/validationErrors';
 
@@ -55,7 +57,14 @@ export async function loginHandler(req, res) {
     });
   }
   // TODO: update lastLogin
+  const { _id, fullName, role } = await loginUser({ email });
+  const accessToken = signAccessToken({ _id, fullName, role });
+
   return res
-    .status(StatusCodes.OK)
-    .json({ accessToken: generateAccessToken({ email }) });
+    .status(StatusCodes.ACCEPTED)
+    .cookie('accessToken', accessToken, {
+      expires: new Date(Date.now() + ONE_DAY),
+      httpOnly: true,
+    })
+    .end();
 }
