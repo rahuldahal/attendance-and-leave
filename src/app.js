@@ -3,6 +3,7 @@ import express from 'express';
 import coursesRouter from './routers/courses';
 import subjectsRouter from './routers/subjects';
 import teachersRouter from './routers/teachers';
+import studentsRouter from './routers/students';
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.use(morgan('combined'));
 app.use('/courses', coursesRouter);
 app.use('/subjects', subjectsRouter);
 app.use('/teachers', teachersRouter);
+app.use('/students', studentsRouter);
 
 export default app;
