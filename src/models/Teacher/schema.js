@@ -10,8 +10,9 @@ export default {
       type: mongoose.Types.ObjectId, // TODO: add ref. to Subject schema https://stackoverflow.com/a/18002078
     },
   ],
-  workingHours: {
-    type: Object,
-    required: true,
-  },
+  workingHours: [
+    {
+      type: Object,
+    },
+  ],
 };
