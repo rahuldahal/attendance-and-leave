@@ -9,13 +9,16 @@ export function signAccessToken(payload) {
 }
 
 export function verifyToken(token) {
-  const payload = jwt.verify(token, envs.accessTokenSecret);
+  try {
+    const payload = jwt.verify(token, envs.accessTokenSecret);
 
-  return payload;
+    return payload;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
 
 export function getTokenFromCookie(req) {
-  const { accessToken } = req.cookies;
-
-  return accessToken || null;
+  return req.cookies ? req.cookies.accessToken : null;
 }

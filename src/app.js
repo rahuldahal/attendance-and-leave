@@ -1,5 +1,6 @@
 import morgan from 'morgan';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import usersRouter from './routers/users';
 import leavesRouter from './routers/leaves';
 import coursesRouter from './routers/courses';
@@ -9,6 +10,8 @@ import studentsRouter from './routers/students';
 import attendancesRouter from './routers/attendances';
 
 const app = express();
+
+app.use(cookieParser());
 
 // ways to submit data to the server
 
