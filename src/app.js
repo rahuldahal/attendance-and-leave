@@ -5,6 +5,7 @@ import subjectsRouter from './routers/subjects';
 import teachersRouter from './routers/teachers';
 import studentsRouter from './routers/students';
 import attendancesRouter from './routers/attendances';
+import leavesRouter from './routers/leaves';
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use('/subjects', subjectsRouter);
 app.use('/teachers', teachersRouter);
 app.use('/students', studentsRouter);
 app.use('/attendances', attendancesRouter);
+app.use('/leaves', leavesRouter);
 
 export default app;
