@@ -3,10 +3,12 @@ import mongoose from 'mongoose';
 export default {
   userId: {
     type: mongoose.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
   courseId: {
-    type: mongoose.Types.ObjectId, // TODO: add ref. to Course schema
+    type: mongoose.Types.ObjectId,
+    ref: 'Course',
   },
   batch: {
     type: Number,

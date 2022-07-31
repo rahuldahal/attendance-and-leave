@@ -7,6 +7,7 @@ export default {
   },
   courseId: {
     type: mongoose.Types.ObjectId,
+    ref: 'Course',
     required: true,
   },
   semester: {

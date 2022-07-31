@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 export default {
   studentId: {
     type: mongoose.Types.ObjectId,
+    ref: 'Student',
     required: true,
   },
   startDate: {

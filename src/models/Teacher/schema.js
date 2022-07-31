@@ -3,11 +3,13 @@ import mongoose from 'mongoose';
 export default {
   userId: {
     type: mongoose.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
   subjectIds: [
     {
-      type: mongoose.Types.ObjectId, // TODO: add ref. to Subject schema https://stackoverflow.com/a/18002078
+      type: mongoose.Types.ObjectId,
+      ref: 'Subject',
     },
   ],
   workingHours: [
