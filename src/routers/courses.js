@@ -1,10 +1,17 @@
 import { Router } from 'express';
+import userRoles from '../constants/userRoles';
 import { courseSchema } from '../schemas/course';
-import { createHandler } from '../controllers/courses';
+import authorize from '../middlewares/authorize';
 import validateBody from '../middlewares/validateBody';
+import { createHandler } from '../controllers/courses';
 
 const router = Router();
 
-router.post('/', validateBody(courseSchema), createHandler);
+router.post(
+  '/',
+  authorize([userRoles.principal, userRoles.hod]),
+  validateBody(courseSchema),
+  createHandler
+);
 
 export default router;
