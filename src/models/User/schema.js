@@ -10,6 +10,7 @@ export default {
   password: {
     type: String,
     required: true,
+    select: false,
   },
   picture: {
     type: String,
