@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { createTeacher } from '../services/teacher';
+import { createTeacher, getAllTeachers, getOneById } from '../services/teacher';
 
 export async function createHandler(req, res) {
   const { validatedData } = req;
@@ -11,5 +11,40 @@ export async function createHandler(req, res) {
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).json({ error });
+  }
+}
+
+export async function getAllHandler(req, res) {
+  const { query } = req;
+  try {
+    let teachers;
+    if (!query || !query.populateBy) {
+      teachers = await getAllTeachers({});
+    } else {
+      teachers = await getAllTeachers({ populateBy: query.populateBy });
+    }
+
+    return res.status(StatusCodes.OK).json({ data: { teachers } });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function getOneHandler(req, res) {
+  const { id } = req.params;
+  const { query } = req;
+  try {
+    let teacher;
+    if (!query || !query.populateBy) {
+      teacher = await getOneById({ id });
+    } else {
+      teacher = await getOneById({ id, populateBy: query.populateBy });
+    }
+
+    return res.status(StatusCodes.OK).json({ data: { teacher } });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 }

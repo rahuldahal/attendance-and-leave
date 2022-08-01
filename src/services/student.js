@@ -8,3 +8,29 @@ export async function createStudent(data) {
     throw new Error(e);
   }
 }
+
+export async function getAllStudents({ populateBy }) {
+  try {
+    if (!populateBy) {
+      return await Student.find({}).exec();
+    }
+
+    return await Student.find({}).populate(populateBy).exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}
+
+export async function getOneById({ id, populateBy }) {
+  try {
+    if (!populateBy) {
+      return await Student.findById(id).exec();
+    }
+
+    return await Student.findById(id).populate(populateBy).exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}

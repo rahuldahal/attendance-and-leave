@@ -2,10 +2,21 @@ import { Router } from 'express';
 import userRoles from '../constants/userRoles';
 import authorize from '../middlewares/authorize';
 import registerUser from '../middlewares/registerUser';
-import { createHandler } from '../controllers/teachers';
+import {
+  createHandler,
+  getAllHandler,
+  getOneHandler,
+} from '../controllers/teachers';
 import validateTeacher from '../middlewares/validateTeacher';
 
 const router = Router();
+
+router.get('/', authorize([userRoles.principal, userRoles.hod]), getAllHandler);
+router.get(
+  '/:id',
+  authorize([userRoles.principal, userRoles.hod]),
+  getOneHandler
+);
 
 router.post(
   '/',

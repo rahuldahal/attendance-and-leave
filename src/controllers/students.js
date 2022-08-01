@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { createStudent } from '../services/student';
+import { createStudent, getAllStudents, getOneById } from '../services/student';
 
 export async function createHandler(req, res) {
   const { validatedData } = req;
@@ -11,5 +11,40 @@ export async function createHandler(req, res) {
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).json({ error });
+  }
+}
+
+export async function getAllHandler(req, res) {
+  const { query } = req;
+  try {
+    let students;
+    if (!query || !query.populateBy) {
+      students = await getAllStudents({});
+    } else {
+      students = await getAllStudents({ populateBy: query.populateBy });
+    }
+
+    return res.status(StatusCodes.OK).json({ data: { students } });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function getOneHandler(req, res) {
+  const { id } = req.params;
+  const { query } = req;
+  try {
+    let student;
+    if (!query || !query.populateBy) {
+      student = await getOneById({ id });
+    } else {
+      student = await getOneById({ id, populateBy: query.populateBy });
+    }
+
+    return res.status(StatusCodes.OK).json({ data: { student } });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 }
