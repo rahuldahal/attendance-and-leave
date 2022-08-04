@@ -21,6 +21,9 @@ app.use(express.json());
 // morgan http logger
 app.use(morgan('combined'));
 
+// Greet with hello
+app.get('/', (req, res) => res.status(200).json({ message: 'Hello World!' }));
+
 // setup routers
 
 app.use('/users', usersRouter);
