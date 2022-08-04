@@ -1,3 +1,4 @@
+import cors from 'cors';
 import morgan from 'morgan';
 import express from 'express';
 import cookieParser from 'cookie-parser';
@@ -10,6 +11,12 @@ import studentsRouter from './routers/students';
 import attendancesRouter from './routers/attendances';
 
 const app = express();
+
+var corsOptions = {
+  origin: 'http://localhost:3000',
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 
