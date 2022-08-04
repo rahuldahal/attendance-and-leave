@@ -31,7 +31,7 @@ userSchema.methods.validatePassword = async function (
 };
 
 userSchema.methods.doesEmailExist = async function (value) {
-  return await this.constructor.findOne({ email: value });
+  return await this.constructor.findOne({ email: value }).select('+password');
 };
 
 const User = new mongoose.model('User', userSchema);
