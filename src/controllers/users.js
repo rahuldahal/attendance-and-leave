@@ -7,6 +7,15 @@ import { StatusCodes } from 'http-status-codes';
 import { isEmpty, isString } from '../utils/string';
 import { LoginErrors } from '../constants/validationErrors';
 
+export async function checkAuth(req, res) {
+  const { cookies } = req;
+  if (cookies && cookies.accessToken) {
+    return res.sendStatus(StatusCodes.OK);
+  }
+
+  return res.sendStatus(StatusCodes.UNAUTHORIZED);
+}
+
 export async function loginHandler(req, res) {
   const { email, password } = req.body;
   if (isEmpty(email) || isEmpty(password)) {

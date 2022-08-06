@@ -12,13 +12,15 @@ import attendancesRouter from './routers/attendances';
 
 const app = express();
 
-var corsOptions = {
-  origin: 'http://localhost:3000',
-};
-
-app.use(cors(corsOptions));
-
 app.use(cookieParser());
+
+// configure cors
+
+const corsOptions = {
+  credentials: true,
+  origin: ['http://localhost:3000', 'https://alms.netlify.app'],
+};
+app.use(cors(corsOptions));
 
 // ways to submit data to the server
 
