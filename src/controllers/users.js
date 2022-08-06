@@ -75,5 +75,5 @@ export async function loginHandler(req, res) {
       expires: new Date(Date.now() + ONE_DAY),
       httpOnly: true,
     })
-    .end();
+    .json({fullName, role});
 }
