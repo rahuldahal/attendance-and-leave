@@ -19,7 +19,9 @@ export async function getAllHandler(req, res) {
   try {
     const courses = await getAllCourses();
 
-    return res.status(StatusCodes.OK).json({ courses });
+    const total = courses.length;
+
+    return res.status(StatusCodes.OK).json({ courses, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

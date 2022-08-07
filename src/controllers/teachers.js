@@ -24,7 +24,9 @@ export async function getAllHandler(req, res) {
       teachers = await getAllTeachers({ populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ teachers });
+    const total = teachers.length;
+
+    return res.status(StatusCodes.OK).json({ teachers, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

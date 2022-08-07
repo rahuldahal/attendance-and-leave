@@ -32,7 +32,9 @@ export async function getAllHandler(req, res) {
       });
     }
 
-    return res.status(StatusCodes.OK).json({ attendances });
+    const total = attendances.length;
+
+    return res.status(StatusCodes.OK).json({ attendances, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -53,7 +55,9 @@ export async function getAllBySubjectHandler(req, res) {
       });
     }
 
-    return res.status(StatusCodes.OK).json({ attendances });
+    const total = attendances.length;
+
+    return res.status(StatusCodes.OK).json({ attendances, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
