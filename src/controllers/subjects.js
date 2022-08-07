@@ -35,7 +35,7 @@ export async function getAllHandler(req, res) {
       subjects = await getAllSubjects({ populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { subjects } });
+    return res.status(StatusCodes.OK).json({ subjects });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -53,7 +53,7 @@ export async function getOneHandler(req, res) {
       subject = await getOneById({ id, populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { subject } });
+    return res.status(StatusCodes.OK).json({ subject });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

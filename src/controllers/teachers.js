@@ -24,7 +24,7 @@ export async function getAllHandler(req, res) {
       teachers = await getAllTeachers({ populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { teachers } });
+    return res.status(StatusCodes.OK).json({ teachers });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -42,7 +42,7 @@ export async function getOneHandler(req, res) {
       teacher = await getOneById({ id, populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { teacher } });
+    return res.status(StatusCodes.OK).json({ teacher });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

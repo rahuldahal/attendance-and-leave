@@ -24,7 +24,7 @@ export async function getAllHandler(req, res) {
   const { query } = req;
   try {
     let attendances;
-    if (!query || !query.populate === "all") {
+    if (!query || !query.populate === 'all') {
       attendances = await getAll({});
     } else {
       attendances = await getAll({
@@ -32,7 +32,7 @@ export async function getAllHandler(req, res) {
       });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { attendances } });
+    return res.status(StatusCodes.OK).json({ attendances });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -53,7 +53,7 @@ export async function getAllBySubjectHandler(req, res) {
       });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { attendances } });
+    return res.status(StatusCodes.OK).json({ attendances });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -71,7 +71,7 @@ export async function getOneHandler(req, res) {
       attendance = await getOneById({ id, populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { attendance } });
+    return res.status(StatusCodes.OK).json({ attendance });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -88,7 +88,7 @@ export async function updateHandler(req, res) {
       dataToBeUpdated: body,
     });
 
-    return res.status(StatusCodes.OK).json({ data: { updatedAttendance } });
+    return res.status(StatusCodes.OK).json({ updatedAttendance });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
