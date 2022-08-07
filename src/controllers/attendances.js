@@ -43,15 +43,15 @@ export async function getAllHandler(req, res) {
 }
 
 export async function getAllBySubjectHandler(req, res) {
-  const { subjectId } = req.params;
+  const { subject } = req.params;
   const { query } = req;
   try {
     let attendances;
     if (!query || !query.populateBy) {
-      attendances = await getAllBySubjectId({ subjectId });
+      attendances = await getAllBySubjectId({ subject });
     } else {
       attendances = await getAllBySubjectId({
-        subjectId,
+        subject,
         populateBy: query.populateBy,
       });
     }
