@@ -18,6 +18,15 @@ export async function loginUser({ email }) {
   }
 }
 
+export async function deleteUser({ id }) {
+  try {
+    return await User.findByIdAndDelete(id).exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}
+
 export async function updateLastLogin({ email }) {
   try {
     return await User.findOneAndUpdate(

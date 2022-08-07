@@ -1,3 +1,4 @@
+import { deleteUser } from '../services/user';
 import { StatusCodes } from 'http-status-codes';
 import { teacherSchema } from '../schemas/teacher';
 
@@ -18,6 +19,7 @@ export default async function validateTeacher(req, res, next) {
       return next();
     }
   } catch (error) {
+    await deleteUser({id: userId});
     return res.status(StatusCodes.BAD_REQUEST).json({ error });
   }
 }
