@@ -19,7 +19,10 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.pre('save', function (next) {
-  this.picture = `${this.picture}&name=${this.firstName}+${this.lastName}`;
+  const splittedName = this.fullName.split(' ');
+  const joinedName = splittedName.join('+');
+
+  this.picture = `${this.picture}&name=${joinedName}`;
   return next();
 });
 
