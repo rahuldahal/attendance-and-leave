@@ -1,7 +1,7 @@
 import User from '../models/User';
 import { ONE_DAY } from '../constants/date';
 import isEmail from 'validator/lib/isEmail';
-import { loginUser } from '../services/user';
+import { loginUser, updateLastLogin } from '../services/user';
 import { signAccessToken } from '../utils/jwt';
 import { StatusCodes } from 'http-status-codes';
 import { isEmpty, isString } from '../utils/string';
@@ -65,9 +65,11 @@ export async function loginHandler(req, res) {
       },
     });
   }
-  // TODO: update lastLogin
+ 
   const { _id, fullName, role } = await loginUser({ email });
   const accessToken = signAccessToken({ _id, fullName, role });
+
+  await updateLastLogin({email});
 
   return res
     .status(StatusCodes.ACCEPTED)
