@@ -5,11 +5,18 @@ import validateAttendance from '../middlewares/validateAttendance';
 import {
   createHandler,
   getAllBySubjectHandler,
+  getAllHandler,
   getOneHandler,
+  updateHandler,
 } from '../controllers/attendances';
 
 const router = Router();
 
+router.get(
+  '/',
+  authorize([userRoles.teacher, userRoles.hod, userRoles.principal]),
+  getAllHandler
+);
 router.get(
   '/:id',
   authorize([userRoles.teacher, userRoles.hod, userRoles.principal]),
@@ -27,5 +34,7 @@ router.post(
   validateAttendance,
   createHandler
 );
+
+router.patch('/:id', authorize([userRoles.hod, userRoles.principal]), updateHandler)
 
 export default router;

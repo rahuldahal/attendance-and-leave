@@ -1,8 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import {
   createAttendance,
+  getAll,
   getAllBySubjectId,
   getOneById,
+  updateAttendance,
 } from '../services/attendance';
 
 export async function createHandler(req, res) {
@@ -15,6 +17,25 @@ export async function createHandler(req, res) {
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).json({ error });
+  }
+}
+
+export async function getAllHandler(req, res) {
+  const { query } = req;
+  try {
+    let attendances;
+    if (!query || !query.populate === "all") {
+      attendances = await getAll({});
+    } else {
+      attendances = await getAll({
+        populate: true,
+      });
+    }
+
+    return res.status(StatusCodes.OK).json({ data: { attendances } });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 }
 
@@ -51,6 +72,23 @@ export async function getOneHandler(req, res) {
     }
 
     return res.status(StatusCodes.OK).json({ data: { attendance } });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function updateHandler(req, res) {
+  const { id } = req.params;
+  const { body } = req;
+
+  try {
+    const updatedAttendance = await updateAttendance({
+      id,
+      dataToBeUpdated: body,
+    });
+
+    return res.status(StatusCodes.OK).json({ data: { updatedAttendance } });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

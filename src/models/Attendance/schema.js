@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export default {
   subject: {
     type: mongoose.Types.ObjectId,
-    ref: 'User',
+    ref: 'Subject',
     required: true,
   },
   teacher: {
