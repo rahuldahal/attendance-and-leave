@@ -1,17 +1,17 @@
 import mongoose from 'mongoose';
 
 export default {
-  subjectId: {
+  subject: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  teacherId: {
+  teacher: {
     type: mongoose.Types.ObjectId,
     ref: 'Teacher',
     required: true,
   },
-  studentId: {
+  student: {
     type: mongoose.Types.ObjectId,
     ref: 'Student',
     required: true,

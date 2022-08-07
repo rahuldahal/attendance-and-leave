@@ -5,7 +5,7 @@ export default {
     type: String,
     required: true,
   },
-  courseId: {
+  course: {
     type: mongoose.Types.ObjectId,
     ref: 'Course',
     required: true,

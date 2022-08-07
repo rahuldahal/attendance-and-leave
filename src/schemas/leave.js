@@ -3,7 +3,7 @@ import regex from '../constants/regex';
 import leaveStatus from '../constants/leaveStatus';
 
 export const leaveSchema = Joi.object({
-  studentId: Joi.string().regex(regex.objectId).required(),
+  student: Joi.string().regex(regex.objectId).required(),
   startDate: Joi.date().required(), // YYYY-MM-DD
   endDate: Joi.date().required(),
   reason: Joi.string().regex(regex.onlyAlphabetsAndSpaces).max(255).required(),
