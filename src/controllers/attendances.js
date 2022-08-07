@@ -3,6 +3,7 @@ import {
   createAttendance,
   getAll,
   getAllBySubjectId,
+  getAllByStudentId,
   getOneById,
   updateAttendance,
 } from '../services/attendance';
@@ -51,6 +52,29 @@ export async function getAllBySubjectHandler(req, res) {
     } else {
       attendances = await getAllBySubjectId({
         subjectId,
+        populateBy: query.populateBy,
+      });
+    }
+
+    const total = attendances.length;
+
+    return res.status(StatusCodes.OK).json({ attendances, total });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function getAllByStudentHandler(req, res) {
+  const { student } = req.params;
+  const { query } = req;
+  try {
+    let attendances;
+    if (!query || !query.populateBy) {
+      attendances = await getAllByStudentId({ student });
+    } else {
+      attendances = await getAllByStudentId({
+        student,
         populateBy: query.populateBy,
       });
     }

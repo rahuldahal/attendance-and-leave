@@ -4,6 +4,7 @@ import authorize from '../middlewares/authorize';
 import validateAttendance from '../middlewares/validateAttendance';
 import {
   createHandler,
+  getAllByStudentHandler,
   getAllBySubjectHandler,
   getAllHandler,
   getOneHandler,
@@ -23,9 +24,19 @@ router.get(
   getOneHandler
 );
 router.get(
-  '/subjects/:subjectId',
+  '/subjects/:subject',
   authorize([userRoles.teacher, userRoles.hod, userRoles.principal]),
   getAllBySubjectHandler
+);
+router.get(
+  '/students/:student',
+  authorize([
+    userRoles.student,
+    userRoles.teacher,
+    userRoles.hod,
+    userRoles.principal,
+  ]),
+  getAllByStudentHandler
 );
 
 router.post(
@@ -35,6 +46,10 @@ router.post(
   createHandler
 );
 
-router.patch('/:id', authorize([userRoles.hod, userRoles.principal]), updateHandler)
+router.patch(
+  '/:id',
+  authorize([userRoles.hod, userRoles.principal]),
+  updateHandler
+);
 
 export default router;
