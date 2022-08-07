@@ -1,3 +1,4 @@
+import Subject from '../models/Subject';
 import { StatusCodes } from 'http-status-codes';
 import { createSubject, getAllSubjects, getOneById } from '../services/subject';
 
@@ -5,7 +6,16 @@ export async function createHandler(req, res) {
   const { validatedData } = req;
 
   try {
-    // TODO: check for duplicate subject code
+    const subject = await Subject.prototype.doesSubjectExist(
+      validatedData.code
+    );
+
+    if (subject) {
+      return res.status(StatusCodes.CONFLICT).json({
+        error: 'The subject with that code is already registered',
+      });
+    }
+
     const { _id } = await createSubject(validatedData);
 
     return res.status(StatusCodes.CREATED).json({ _id });
