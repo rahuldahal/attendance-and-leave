@@ -36,3 +36,5 @@ export default async function (req, res, next) {
     return res.status(StatusCodes.BAD_REQUEST).json({ error });
   }
 }
+
+// TODO: while creating a new user, if the validation at the "next" middleware fails, delete the created user as well
