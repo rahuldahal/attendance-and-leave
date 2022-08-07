@@ -4,12 +4,12 @@ import { studentSchema } from '../schemas/student';
 
 export default async function validateStudent(req, res, next) {
   const { userId } = req;
-  const { courseId, semester, batch } = req.body;
+  const { course, semester, batch } = req.body;
   try {
     // use Joi to valdiate the request body
     const validatedData = await studentSchema.validateAsync({
-      userId,
-      courseId,
+      user: userId,
+      course,
       semester,
       batch,
     });

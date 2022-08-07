@@ -4,12 +4,12 @@ import { teacherSchema } from '../schemas/teacher';
 
 export default async function validateTeacher(req, res, next) {
   const { userId } = req;
-  const { subjectIds, workingHours } = req.body;
+  const { subjects, workingHours } = req.body;
   try {
     // use Joi to valdiate the request body
     const validatedData = await teacherSchema.validateAsync({
-      userId,
-      subjectIds,
+      user: userId,
+      subjects,
       workingHours,
     });
 
