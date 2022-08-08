@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export default {
-  studentId: {
+  student: {
     type: mongoose.Types.ObjectId,
     ref: 'Student',
     required: true,

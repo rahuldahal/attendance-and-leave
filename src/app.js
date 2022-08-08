@@ -1,6 +1,7 @@
 import cors from 'cors';
 import morgan from 'morgan';
 import express from 'express';
+import hodsRouter from './routers/hods';
 import cookieParser from 'cookie-parser';
 import usersRouter from './routers/users';
 import leavesRouter from './routers/leaves';
@@ -38,6 +39,7 @@ app.get('/', (req, res) => res.status(200).json({ message: 'Hello World!' }));
 app.use('/users', usersRouter);
 app.use('/courses', coursesRouter);
 app.use('/subjects', subjectsRouter);
+app.use('/hods', hodsRouter);
 app.use('/teachers', teachersRouter);
 app.use('/students', studentsRouter);
 app.use('/attendances', attendancesRouter);

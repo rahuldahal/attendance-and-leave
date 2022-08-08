@@ -9,14 +9,77 @@ export async function createAttendance(data) {
   }
 }
 
-export async function getAllBySubjectId({ subjectId, populateBy }) {
-  console.log(populateBy);
+export async function getAll({ populate }) {
   try {
-    if (!populateBy) {
-      return await Attendance.find({ subjectId }).exec();
+    if (!populate) {
+      return await Attendance.find({}).exec();
     }
 
-    return await Attendance.find({ subjectId }).populate(populateBy).exec();
+    return await Attendance.find({})
+      .populate({
+        path: 'student',
+        populate: {
+          path: 'user',
+        },
+      })
+      .populate({
+        path: 'teacher',
+        populate: {
+          path: 'user',
+        },
+      })
+      .populate({
+        path: 'subject',
+        populate: {
+          path: 'course',
+        },
+      })
+      .exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}
+
+export async function getAllBySubjectId({ subject, populateBy }) {
+  try {
+    if (!populateBy) {
+      return await Attendance.find({ subject }).exec();
+    }
+
+    return await Attendance.find({ subject }).populate(populateBy).exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}
+
+export async function getAllByStudentId({ student, populate }) {
+  try {
+    if (!populate) {
+      return await Attendance.find({ student })
+        .populate({
+          path: 'student',
+          populate: {
+            path: 'user',
+          },
+        })
+        .populate({
+          path: 'teacher',
+          populate: {
+            path: 'user',
+          },
+        })
+        .populate({
+          path: 'subject',
+          populate: {
+            path: 'course',
+          },
+        })
+        .exec();
+    }
+
+    return await Attendance.find({ student }).populate(populateBy).exec();
   } catch (e) {
     console.log(e);
     throw new Error(e);
@@ -30,6 +93,17 @@ export async function getOneById({ id, populateBy }) {
     }
 
     return await Attendance.findById(id).populate(populateBy).exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}
+
+export async function updateAttendance({ id, dataToBeUpdated }) {
+  try {
+    return await Attendance.findByIdAndUpdate(id, dataToBeUpdated, {
+      new: true,
+    }).exec();
   } catch (e) {
     console.log(e);
     throw new Error(e);

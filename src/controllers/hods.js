@@ -1,11 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
-import { createStudent, getAllStudents, getOneById } from '../services/student';
+import { createHOD, getAllHODs, getOneById } from '../services/hod';
 
 export async function createHandler(req, res) {
   const { validatedData } = req;
 
   try {
-    const { _id } = await createStudent(validatedData);
+    const { _id } = await createHOD(validatedData);
 
     return res.status(StatusCodes.CREATED).json({ _id });
   } catch (error) {
@@ -17,16 +17,16 @@ export async function createHandler(req, res) {
 export async function getAllHandler(req, res) {
   const { query } = req;
   try {
-    let students;
+    let HODs;
     if (!query || !query.populateBy) {
-      students = await getAllStudents({});
+      HODs = await getAllHODs({});
     } else {
-      students = await getAllStudents({ populateBy: query.populateBy });
+      HODs = await getAllHODs({ populateBy: query.populateBy });
     }
 
-    const total = students.length;
+    const total = HODs.length;
 
-    return res.status(StatusCodes.OK).json({ students, total });
+    return res.status(StatusCodes.OK).json({ HODs, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -37,14 +37,14 @@ export async function getOneHandler(req, res) {
   const { id } = req.params;
   const { query } = req;
   try {
-    let student;
+    let HOD;
     if (!query || !query.populateBy) {
-      student = await getOneById({ id });
+      HOD = await getOneById({ id });
     } else {
-      student = await getOneById({ id, populateBy: query.populateBy });
+      HOD = await getOneById({ id, populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ student });
+    return res.status(StatusCodes.OK).json({ HOD });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

@@ -6,10 +6,10 @@ export default {
     ref: 'User',
     required: true,
   },
-  subjects: [
+  courses: [
     {
       type: mongoose.Types.ObjectId,
-      ref: 'Subject',
+      ref: 'Course',
     },
   ],
   workingHours: [

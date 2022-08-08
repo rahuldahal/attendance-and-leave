@@ -1,3 +1,4 @@
+import Subject from '../models/Subject';
 import { StatusCodes } from 'http-status-codes';
 import { createSubject, getAllSubjects, getOneById } from '../services/subject';
 
@@ -5,7 +6,16 @@ export async function createHandler(req, res) {
   const { validatedData } = req;
 
   try {
-    // TODO: check for duplicate subject code
+    const subject = await Subject.prototype.doesSubjectExist(
+      validatedData.code
+    );
+
+    if (subject) {
+      return res.status(StatusCodes.CONFLICT).json({
+        error: 'The subject with that code is already registered',
+      });
+    }
+
     const { _id } = await createSubject(validatedData);
 
     return res.status(StatusCodes.CREATED).json({ _id });
@@ -25,7 +35,9 @@ export async function getAllHandler(req, res) {
       subjects = await getAllSubjects({ populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { subjects } });
+    const total = subjects.length;
+
+    return res.status(StatusCodes.OK).json({ subjects, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -43,7 +55,7 @@ export async function getOneHandler(req, res) {
       subject = await getOneById({ id, populateBy: query.populateBy });
     }
 
-    return res.status(StatusCodes.OK).json({ data: { subject } });
+    return res.status(StatusCodes.OK).json({ subject });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

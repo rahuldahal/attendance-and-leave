@@ -1,15 +1,15 @@
-import { deleteUser } from '../services/user';
 import { StatusCodes } from 'http-status-codes';
-import { teacherSchema } from '../schemas/teacher';
+import { hodSchema } from '../schemas/hod';
+import { deleteUser } from '../services/user';
 
-export default async function validateTeacher(req, res, next) {
+export default async function validateHOD(req, res, next) {
   const { userId } = req;
-  const { subjects, workingHours } = req.body;
+  const { courses, workingHours } = req.body;
   try {
     // use Joi to valdiate the request body
-    const validatedData = await teacherSchema.validateAsync({
+    const validatedData = await hodSchema.validateAsync({
       user: userId,
-      subjects,
+      courses,
       workingHours,
     });
 

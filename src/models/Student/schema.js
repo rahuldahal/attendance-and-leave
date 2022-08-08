@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
 export default {
-  userId: {
+  user: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  courseId: {
+  course: {
     type: mongoose.Types.ObjectId,
     ref: 'Course',
   },
