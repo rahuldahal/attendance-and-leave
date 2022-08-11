@@ -7,13 +7,10 @@ import { StatusCodes } from 'http-status-codes';
 import { isEmpty, isString } from '../utils/string';
 import { LoginErrors } from '../constants/validationErrors';
 
-export async function checkAuth(req, res) {
-  const { cookies } = req;
-  if (cookies && cookies.accessToken) {
-    return res.sendStatus(StatusCodes.OK);
-  }
+export async function signOutHandler(req, res) {
+  res.cookie('accessToken', '', { expires: new Date(0) });
 
-  return res.sendStatus(StatusCodes.UNAUTHORIZED);
+  return res.sendStatus(StatusCodes.OK);
 }
 
 export async function loginHandler(req, res) {
@@ -65,11 +62,11 @@ export async function loginHandler(req, res) {
       },
     });
   }
- 
+
   const { _id, fullName, role } = await loginUser({ email });
   const accessToken = signAccessToken({ _id, fullName, role });
 
-  await updateLastLogin({email});
+  await updateLastLogin({ email });
 
   return res
     .status(StatusCodes.ACCEPTED)
@@ -77,5 +74,5 @@ export async function loginHandler(req, res) {
       expires: new Date(Date.now() + ONE_DAY),
       httpOnly: true,
     })
-    .json({fullName, role});
+    .json({ _id, fullName, role });
 }
