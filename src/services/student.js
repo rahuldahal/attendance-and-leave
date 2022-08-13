@@ -34,3 +34,14 @@ export async function getOneById({ id, populateBy }) {
     throw new Error(e);
   }
 }
+
+export async function getStudentsByCourseAndSemester({ course, semester }) {
+  try {
+    return await Student.find({ course, semester })
+      .populate('course user')
+      .exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}
