@@ -38,7 +38,13 @@ export async function getOneById({ id, populateBy }) {
 export async function getOneByUserId({ userId }) {
   try {
     return await Teacher.findOne({ user: userId })
-      .populate('subjects user')
+      .populate({
+        path: 'subjects',
+        populate: {
+          path: 'course',
+        },
+      })
+      .populate('user')
       .exec();
   } catch (e) {
     console.log(e);
