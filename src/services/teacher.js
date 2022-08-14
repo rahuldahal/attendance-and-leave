@@ -34,3 +34,20 @@ export async function getOneById({ id, populateBy }) {
     throw new Error(e);
   }
 }
+
+export async function getOneByUserId({ userId }) {
+  try {
+    return await Teacher.findOne({ user: userId })
+      .populate({
+        path: 'subjects',
+        populate: {
+          path: 'course',
+        },
+      })
+      .populate('user')
+      .exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}

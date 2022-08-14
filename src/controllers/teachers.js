@@ -1,5 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
-import { createTeacher, getAllTeachers, getOneById } from '../services/teacher';
+import {
+  createTeacher,
+  getAllTeachers,
+  getOneById,
+  getOneByUserId,
+} from '../services/teacher';
 
 export async function createHandler(req, res) {
   const { validatedData } = req;
@@ -16,17 +21,26 @@ export async function createHandler(req, res) {
 
 export async function getAllHandler(req, res) {
   const { query } = req;
+
   try {
-    let teachers;
-    if (!query || !query.populateBy) {
-      teachers = await getAllTeachers({});
+    if (query && query.userId) {
+      const { userId } = query;
+      const teacher = await getOneByUserId({ userId });
+
+      return res.status(StatusCodes.OK).json({ teacher });
     } else {
-      teachers = await getAllTeachers({ populateBy: query.populateBy });
+      let teachers;
+
+      if (!query || !query.populateBy) {
+        teachers = await getAllTeachers({});
+      } else {
+        teachers = await getAllTeachers({ populateBy: query.populateBy });
+      }
+
+      const total = teachers.length;
+
+      return res.status(StatusCodes.OK).json({ teachers, total });
     }
-
-    const total = teachers.length;
-
-    return res.status(StatusCodes.OK).json({ teachers, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

@@ -11,7 +11,11 @@ import validateTeacher from '../middlewares/validateTeacher';
 
 const router = Router();
 
-router.get('/', authorize([userRoles.principal, userRoles.hod]), getAllHandler);
+router.get(
+  '/',
+  authorize([userRoles.principal, userRoles.hod, userRoles.teacher]),
+  getAllHandler
+);
 router.get(
   '/:id',
   authorize([userRoles.principal, userRoles.hod]),

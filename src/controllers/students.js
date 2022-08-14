@@ -1,5 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
-import { createStudent, getAllStudents, getOneById } from '../services/student';
+import {
+  createStudent,
+  getAllStudents,
+  getOneById,
+  getStudentsByCourseAndSemester,
+} from '../services/student';
 
 export async function createHandler(req, res) {
   const { validatedData } = req;
@@ -18,13 +23,17 @@ export async function getAllHandler(req, res) {
   const { query } = req;
   try {
     let students;
-    if (!query || !query.populateBy) {
+
+    if (query && query.course && query.semester) {
+      const { course, semester } = query;
+      students = await getStudentsByCourseAndSemester({ course, semester });
+    } else if (!query || !query.populateBy) {
       students = await getAllStudents({});
     } else {
       students = await getAllStudents({ populateBy: query.populateBy });
     }
 
-    const total = students.length;
+    const total = students ? students.length : 0;
 
     return res.status(StatusCodes.OK).json({ students, total });
   } catch (error) {
