@@ -27,7 +27,7 @@ router.get(
   '/subjects/:subject',
   authorize([userRoles.teacher, userRoles.hod, userRoles.principal]),
   getAllBySubjectHandler
-);
+); // allow iff the subject is taught by the teacher
 router.get(
   '/students/:student',
   authorize([

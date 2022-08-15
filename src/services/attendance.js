@@ -41,13 +41,28 @@ export async function getAll({ populate }) {
   }
 }
 
-export async function getAllBySubjectId({ subject, populateBy }) {
+export async function getAllBySubjectId({ subject }) {
   try {
-    if (!populateBy) {
-      return await Attendance.find({ subject }).exec();
-    }
-
-    return await Attendance.find({ subject }).populate(populateBy).exec();
+    return await Attendance.find({ subject })
+      .populate({
+        path: 'student',
+        populate: {
+          path: 'user',
+        },
+      })
+      .populate({
+        path: 'teacher',
+        populate: {
+          path: 'user',
+        },
+      })
+      .populate({
+        path: 'subject',
+        populate: {
+          path: 'course',
+        },
+      })
+      .exec();
   } catch (e) {
     console.log(e);
     throw new Error(e);
