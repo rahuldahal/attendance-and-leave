@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import Student from '../models/Student';
 import {
   createStudent,
   getAllStudents,
@@ -57,5 +58,16 @@ export async function getOneHandler(req, res) {
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function getOneStudentByUserId({ userId }) {
+  try {
+    return await Student.findOne({ user: userId })
+      .populate('user course')
+      .exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
   }
 }

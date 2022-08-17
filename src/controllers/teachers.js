@@ -3,7 +3,7 @@ import {
   createTeacher,
   getAllTeachers,
   getOneById,
-  getOneByUserId,
+  getOneTeacherByUserId,
 } from '../services/teacher';
 
 export async function createHandler(req, res) {
@@ -25,7 +25,7 @@ export async function getAllHandler(req, res) {
   try {
     if (query && query.userId) {
       const { userId } = query;
-      const teacher = await getOneByUserId({ userId });
+      const teacher = await getOneTeacherByUserId({ userId });
 
       return res.status(StatusCodes.OK).json({ teacher });
     } else {

@@ -35,7 +35,7 @@ export async function getOneById({ id, populateBy }) {
   }
 }
 
-export async function getOneByUserId({ userId }) {
+export async function getOneTeacherByUserId({ userId }) {
   try {
     return await Teacher.findOne({ user: userId })
       .populate({

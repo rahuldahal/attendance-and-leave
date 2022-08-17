@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import HOD from '../models/HOD';
 import { createHOD, getAllHODs, getOneById } from '../services/hod';
 
 export async function createHandler(req, res) {
@@ -48,5 +49,14 @@ export async function getOneHandler(req, res) {
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function getOneHodByUserId({ userId }) {
+  try {
+    return await HOD.findOne({ user: userId }).populate('user course').exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
   }
 }

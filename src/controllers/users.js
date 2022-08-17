@@ -6,6 +6,10 @@ import { signAccessToken } from '../utils/jwt';
 import { StatusCodes } from 'http-status-codes';
 import { isEmpty, isString } from '../utils/string';
 import { LoginErrors } from '../constants/validationErrors';
+import userRoles from '../constants/userRoles';
+import { getOneTeacherByUserId } from '../services/teacher';
+import { getOneStudentByUserId } from './students';
+import { getOneHodByUserId } from './hods';
 
 export async function signOutHandler(req, res) {
   res.cookie('accessToken', '', { expires: new Date(0) });
@@ -75,4 +79,42 @@ export async function loginHandler(req, res) {
       httpOnly: true,
     })
     .json({ _id, fullName, role });
+}
+
+export async function sendAuthInfo(req, res) {
+  const { payload } = req;
+  const { _id: userId, role } = payload;
+
+  const { hod, teacher, student } = userRoles;
+
+  console.log(role, teacher);
+
+  const authStatus = {
+    isAuthenticated: true,
+    userId,
+    role,
+  };
+
+  try {
+    switch (role) {
+      case teacher:
+        const { _id: teacherId } = await getOneTeacherByUserId({ userId });
+        authStatus.teacherId = teacherId;
+        break;
+
+      case hod:
+        const { _id: hodId } = await getOneHodByUserId({ userId });
+        authStatus.hodId = hodId;
+        break;
+
+      case student:
+        const { _id: studentId } = await getOneStudentByUserId({ userId });
+        authStatus.studentId = studentId;
+        break;
+    }
+
+    res.status(StatusCodes.OK).json({ authStatus });
+  } catch (e) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: e });
+  }
 }
