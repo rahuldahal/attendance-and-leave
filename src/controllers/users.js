@@ -78,7 +78,7 @@ export async function loginHandler(req, res) {
       expires: new Date(Date.now() + ONE_DAY),
       httpOnly: true,
     })
-    .json({ _id, fullName, role });
+    .end();
 }
 
 export async function sendAuthInfo(req, res) {
@@ -98,18 +98,25 @@ export async function sendAuthInfo(req, res) {
   try {
     switch (role) {
       case teacher:
-        const { _id: teacherId } = await getOneTeacherByUserId({ userId });
+        const { _id: teacherId, user: teacherInfo } =
+          await getOneTeacherByUserId({ userId });
         authStatus.teacherId = teacherId;
+        authStatus.picture = teacherInfo.picture;
         break;
 
       case hod:
-        const { _id: hodId } = await getOneHodByUserId({ userId });
+        const { _id: hodId, user: hodInfo } = await getOneHodByUserId({
+          userId,
+        });
         authStatus.hodId = hodId;
+        authStatus.picture = hodInfo.picture;
         break;
 
       case student:
-        const { _id: studentId } = await getOneStudentByUserId({ userId });
+        const { _id: studentId, user: studentInfo } =
+          await getOneStudentByUserId({ userId });
         authStatus.studentId = studentId;
+        authStatus.picture = studentInfo.picture;
         break;
     }
 
