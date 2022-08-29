@@ -44,9 +44,20 @@ export async function getAllHandler(req, res) {
 
 export async function getAllBySubjectHandler(req, res) {
   const { subject } = req.params;
+  const { query } = req;
+
+  let date;
+
+  if (!query || !query.date) {
+    date = new Date().toISOString().split('T')[0];
+  } else {
+    date = query.date;
+  }
+
   try {
     const attendances = await getAllBySubjectId({
       subject,
+      date,
     });
 
     const total = attendances.length;

@@ -41,9 +41,9 @@ export async function getAll({ populate }) {
   }
 }
 
-export async function getAllBySubjectId({ subject }) {
+export async function getAllBySubjectId({ subject, date }) {
   try {
-    return await Attendance.find({ subject })
+    return await Attendance.find({ subject, date })
       .populate({
         path: 'student',
         populate: {
