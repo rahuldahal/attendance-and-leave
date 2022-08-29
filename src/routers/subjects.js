@@ -13,7 +13,12 @@ const router = Router();
 
 router.get(
   '/',
-  authorize([userRoles.principal, userRoles.hod, userRoles.teacher]),
+  authorize([
+    userRoles.principal,
+    userRoles.hod,
+    userRoles.teacher,
+    userRoles.student,
+  ]), // TODO: only allow students involved with the course in question
   getAllHandler
 );
 router.get(

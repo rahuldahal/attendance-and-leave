@@ -9,13 +9,13 @@ export async function createSubject(data) {
   }
 }
 
-export async function getAllSubjects({ populateBy }) {
+export async function getAllSubjects({ populateBy, query = {} }) {
   try {
     if (!populateBy) {
-      return await Subject.find({}).exec();
+      return await Subject.find(query).exec();
     }
 
-    return await Subject.find({}).populate(populateBy).exec();
+    return await Subject.find(query).populate(populateBy).exec();
   } catch (e) {
     console.log(e);
     throw new Error(e);
