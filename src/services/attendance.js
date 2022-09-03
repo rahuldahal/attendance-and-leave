@@ -69,32 +69,29 @@ export async function getAllBySubjectId({ subject, date }) {
   }
 }
 
-export async function getAllByStudentId({ student, populate }) {
+export async function getAllByStudentId({ student, date, subject }) {
   try {
-    if (!populate) {
-      return await Attendance.find({ student })
-        .populate({
-          path: 'student',
-          populate: {
-            path: 'user',
-          },
-        })
-        .populate({
-          path: 'teacher',
-          populate: {
-            path: 'user',
-          },
-        })
-        .populate({
-          path: 'subject',
-          populate: {
-            path: 'course',
-          },
-        })
-        .exec();
-    }
-
-    return await Attendance.find({ student }).populate(populateBy).exec();
+    const query = { student, date };
+    return await Attendance.find(subject ? { ...query, subject } : query)
+      .populate({
+        path: 'student',
+        populate: {
+          path: 'user',
+        },
+      })
+      .populate({
+        path: 'teacher',
+        populate: {
+          path: 'user',
+        },
+      })
+      .populate({
+        path: 'subject',
+        populate: {
+          path: 'course',
+        },
+      })
+      .exec();
   } catch (e) {
     console.log(e);
     throw new Error(e);

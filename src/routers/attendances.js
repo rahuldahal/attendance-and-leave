@@ -32,7 +32,6 @@ router.get(
   '/students/:student',
   authorize([
     userRoles.student,
-    userRoles.teacher,
     userRoles.hod,
     userRoles.principal,
   ]),

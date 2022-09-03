@@ -72,16 +72,17 @@ export async function getAllBySubjectHandler(req, res) {
 export async function getAllByStudentHandler(req, res) {
   const { student } = req.params;
   const { query } = req;
+
+  const date = query.date || new Date().toISOString().split('T')[0];
+  const subject = query.subject || null;
+
   try {
     let attendances;
-    if (!query || !query.populateBy) {
-      attendances = await getAllByStudentId({ student });
-    } else {
-      attendances = await getAllByStudentId({
-        student,
-        populateBy: query.populateBy,
-      });
-    }
+    attendances = await getAllByStudentId({
+      student,
+      date,
+      subject,
+    });
 
     const total = attendances.length;
 
