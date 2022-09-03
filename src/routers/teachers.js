@@ -5,6 +5,7 @@ import registerUser from '../middlewares/registerUser';
 import {
   createHandler,
   getAllHandler,
+  getOneBySubjectHandler,
   getOneHandler,
 } from '../controllers/teachers';
 import validateTeacher from '../middlewares/validateTeacher';
@@ -20,6 +21,11 @@ router.get(
   '/:id',
   authorize([userRoles.principal, userRoles.hod]),
   getOneHandler
+);
+router.get(
+  '/subjects/:id',
+  authorize([userRoles.principal, userRoles.hod]),
+  getOneBySubjectHandler
 );
 
 router.post(

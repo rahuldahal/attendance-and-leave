@@ -29,7 +29,11 @@ export async function getAllHandler(req, res) {
   const { query } = req;
   try {
     let subjects;
-    if (!query || !query.populateBy) {
+
+    if (query && query.course && query.semester) {
+      const { course, semester } = query;
+      subjects = await getAllSubjects({ query: { course, semester } });
+    } else if (!query || !query.populateBy) {
       subjects = await getAllSubjects({});
     } else {
       subjects = await getAllSubjects({ populateBy: query.populateBy });

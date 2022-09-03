@@ -3,6 +3,7 @@ import {
   createTeacher,
   getAllTeachers,
   getOneById,
+  getOneBySubjectId,
   getOneTeacherByUserId,
 } from '../services/teacher';
 
@@ -41,6 +42,21 @@ export async function getAllHandler(req, res) {
 
       return res.status(StatusCodes.OK).json({ teachers, total });
     }
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function getOneBySubjectHandler(req, res) {
+  const { id } = req.params;
+  try {
+    const teacher = await getOneBySubjectId({
+      subjectId: id,
+      populateBy: 'user',
+    });
+
+    return res.status(StatusCodes.OK).json({ teacher });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });

@@ -1,4 +1,7 @@
 import Teacher from '../models/Teacher';
+import mongoose from 'mongoose';
+
+const { ObjectId } = mongoose.Types;
 
 export async function createTeacher(data) {
   try {
@@ -29,6 +32,20 @@ export async function getOneById({ id, populateBy }) {
     }
 
     return await Teacher.findById(id).populate(populateBy).exec();
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}
+
+export async function getOneBySubjectId({ subjectId, populateBy }) {
+  try {
+    console.log({ subjectId });
+    return await Teacher.findOne({
+      subjects: new ObjectId(subjectId),
+    })
+      .populate(populateBy)
+      .exec();
   } catch (e) {
     console.log(e);
     throw new Error(e);
