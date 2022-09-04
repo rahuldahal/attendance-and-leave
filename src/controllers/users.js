@@ -113,10 +113,16 @@ export async function sendAuthInfo(req, res) {
         break;
 
       case student:
-        const { _id: studentId, user: studentInfo } =
-          await getOneStudentByUserId({ userId });
+        const {
+          _id: studentId,
+          course,
+          semester,
+          user: studentInfo,
+        } = await getOneStudentByUserId({ userId });
         authStatus.studentId = studentId;
         authStatus.picture = studentInfo.picture;
+        authStatus.courseId = course._id;
+        authStatus.semester = semester;
         break;
     }
 
