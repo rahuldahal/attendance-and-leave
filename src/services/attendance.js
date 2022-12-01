@@ -121,3 +121,26 @@ export async function updateAttendance({ id, dataToBeUpdated }) {
     throw new Error(e);
   }
 }
+
+export async function getAllOfMonth({ student, date, subject }) {
+  try {
+    const query = { student, subject }; // TODO: remove the static date string
+    const month = new Date(date).getMonth() + 1;
+
+    const attendances = await Attendance.find(query).exec();
+    console.log(attendances);
+    const filteredAttendances = attendances.filter((attendance) => {
+      const { date: dateFromDB } = attendance;
+      const monthFromDB = new Date(dateFromDB).getMonth() + 1;
+
+      if (month === monthFromDB) {
+        return attendance;
+      }
+    });
+
+    return filteredAttendances;
+  } catch (e) {
+    console.log(e);
+    throw new Error(e);
+  }
+}

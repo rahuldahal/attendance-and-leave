@@ -7,6 +7,7 @@ import {
   getAllByStudentHandler,
   getAllBySubjectHandler,
   getAllHandler,
+  getAllOfMonthHandler,
   getOneHandler,
   updateHandler,
 } from '../controllers/attendances';
@@ -17,6 +18,11 @@ router.get(
   '/',
   authorize([userRoles.teacher, userRoles.hod, userRoles.principal]),
   getAllHandler
+);
+router.get(
+  '/my-attendance',
+  authorize([userRoles.student]),
+  getAllOfMonthHandler
 );
 router.get(
   '/:id',
@@ -30,11 +36,7 @@ router.get(
 ); // allow iff the subject is taught by the teacher
 router.get(
   '/students/:student',
-  authorize([
-    userRoles.student,
-    userRoles.hod,
-    userRoles.principal,
-  ]),
+  authorize([userRoles.student, userRoles.hod, userRoles.principal]),
   getAllByStudentHandler
 );
 

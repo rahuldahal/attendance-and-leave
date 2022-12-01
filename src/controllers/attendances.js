@@ -6,6 +6,7 @@ import {
   getAllByStudentId,
   getOneById,
   updateAttendance,
+  getAllOfMonth,
 } from '../services/attendance';
 
 export async function createHandler(req, res) {
@@ -122,6 +123,30 @@ export async function updateHandler(req, res) {
     });
 
     return res.status(StatusCodes.OK).json({ updatedAttendance });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+}
+
+export async function getAllOfMonthHandler(req, res) {
+  const { query } = req;
+
+  const student = query.student || null;
+  const date = query.date || new Date().toISOString().split('T')[0];
+  const subject = query.subject || null;
+
+  try {
+    let attendances;
+    attendances = await getAllOfMonth({
+      student,
+      date,
+      subject,
+    });
+
+    const total = attendances.length;
+
+    return res.status(StatusCodes.OK).json({ attendances, total });
   } catch (error) {
     console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
