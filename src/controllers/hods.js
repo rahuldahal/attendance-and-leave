@@ -1,6 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 import HOD from '../models/HOD';
-import { createHOD, getAllHODs, getOneById } from '../services/hod';
+import {
+  createHOD,
+  getAllCoursesOfHod,
+  getAllHODs,
+  getOneById,
+} from '../services/hod';
 
 export async function createHandler(req, res) {
   const { validatedData } = req;
@@ -58,5 +63,21 @@ export async function getOneHodByUserId({ userId }) {
   } catch (e) {
     console.log(e);
     throw new Error(e);
+  }
+}
+
+export async function getAllCoursesOfHodHandler(req, res) {
+  const { query } = req;
+
+  try {
+    if (query && query.hodId) {
+      const { hodId } = query;
+      const courses = await getAllCoursesOfHod({ hodId });
+
+      return res.status(StatusCodes.OK).json({ courses });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 }
