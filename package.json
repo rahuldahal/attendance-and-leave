@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "db": "mongod",
     "serve": "nodemon -r esm src/init | pino-pretty",
+    "start": "node -r esm src/init | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
