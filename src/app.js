@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 const corsOptions = {
   credentials: true,
-  origin: ['http://localhost:3000', 'https://alms.netlify.app'],
+  origin: ['http://localhost:3000', 'https://alms-react.netlify.app'],
 };
 app.use(cors(corsOptions));
 
