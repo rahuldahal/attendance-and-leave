@@ -77,7 +77,8 @@ export async function loginHandler(req, res) {
     .cookie('accessToken', accessToken, {
       expires: new Date(Date.now() + ONE_DAY),
       httpOnly: true,
-      sameSite: false,
+      sameSite: 'None',
+      secure: true, // ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#none
     })
     .end();
 }
