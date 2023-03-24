@@ -77,6 +77,7 @@ export async function loginHandler(req, res) {
     .cookie('accessToken', accessToken, {
       expires: new Date(Date.now() + ONE_DAY),
       httpOnly: true,
+      sameSite: false,
     })
     .end();
 }
